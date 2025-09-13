@@ -244,7 +244,7 @@ const StudentResultForm: React.FC = () => {
               <div>
                 <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Email</p>
                 <a href="mailto:raunakkumarjob@gmail.com" className="text-lg font-bold text-blue-600 hover:text-blue-800">
-                  raunakkumarjob@gmail.com
+                  worktracker75@gmail.com
                 </a>
               </div>
             </div>
