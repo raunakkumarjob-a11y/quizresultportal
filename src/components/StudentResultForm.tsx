@@ -247,11 +247,16 @@ const StudentResultForm: React.FC = () => {
                   worktracker75@gmail.com
                 </a>
 
-                 <a className="text-lg font-bold text-blue-600 hover:text-blue-800">
-                  Developed By - Raunak Kumar
-                </a>
+                
               </div>
             </div>
+
+
+
+             
+          
+         
+
             
             <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-xl">
               <User className="w-6 h-6 text-blue-600" />
@@ -271,6 +276,20 @@ const StudentResultForm: React.FC = () => {
         </div>
       </div>
     </div>
+    <div className="grid md:grid-cols-2 gap-6">
+  <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-xl">
+    <Mail className="w-6 h-6 text-blue-600" />
+    <div>
+      <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+        Developed by
+      </p>
+      <p className="text-lg font-bold text-gray-800">
+        Raunak Kumar
+      </p>
+    </div>
+  </div>
+</div>
+
   );
 };
 
