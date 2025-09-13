@@ -246,6 +246,10 @@ const StudentResultForm: React.FC = () => {
                 <a href="mailto:raunakkumarjob@gmail.com" className="text-lg font-bold text-blue-600 hover:text-blue-800">
                   worktracker75@gmail.com
                 </a>
+
+                 <a className="text-lg font-bold text-blue-600 hover:text-blue-800">
+                  Developed By - Raunak Kumar
+                </a>
               </div>
             </div>
             
