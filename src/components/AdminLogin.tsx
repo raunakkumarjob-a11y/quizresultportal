@@ -201,11 +201,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
           )}
 
           {/* Demo Info */}
-          <div className="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-            <p className="text-blue-200 text-sm font-semibold mb-2">Demo Admin:</p>
-            <p className="text-blue-300 text-sm">Email: raunakkumarjob@gmail.com</p>
-            <p className="text-blue-300 text-sm">OTP will be displayed in alert for demo</p>
-          </div>
+        
         </div>
       </div>
     </div>
