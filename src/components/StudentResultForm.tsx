@@ -244,7 +244,7 @@ const StudentResultForm: React.FC = () => {
               <div>
                 <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Email</p>
                 <a href="mailto:raunakkumarjob@gmail.com" className="text-lg font-bold text-blue-600 hover:text-blue-800">
-                  worktracker75@gmail.com
+                  raunakkumarjob@gmail.com
                 </a>
 
                 
@@ -270,6 +270,28 @@ const StudentResultForm: React.FC = () => {
                 >
                   View Profile
                 </a>
+              </div>
+            </div>
+          </div>
+          
+          {/* Developer Information */}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <div className="text-center">
+              <p className="text-sm text-gray-600 mb-2">
+                <strong>Developed by:</strong> Raunak Kumar
+              </p>
+              <p className="text-sm text-gray-500 mb-4">
+                Full Stack Developer | React.js | Node.js | Database Management
+              </p>
+              <div className="flex justify-center items-center gap-6 text-sm text-gray-500">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span>Available for Projects</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span>Professional Development</span>
+                </div>
               </div>
             </div>
           </div>
