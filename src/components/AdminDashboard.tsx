@@ -8,9 +8,9 @@ import { useAuth } from '../contexts/AuthContext';
 import { 
   getStudents, deleteStudent, 
   generateCSV, parseCSV, updateStudent,
-  getRecheckRequests, saveRecheckRequests, replaceAllStudents
-} from '../utils/storage';
-import { Student, RecheckRequest } from '../types';
+  getRecheckRequests, updateRecheckRequestStatus, replaceAllStudents
+} from '../utils/database';
+import type { Student, RecheckRequest } from '../lib/supabase';
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -32,9 +32,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
     loadData();
   }, []);
 
-  const loadData = () => {
-    setStudents(getStudents());
-    setRecheckRequests(getRecheckRequests());
+  const loadData = async () => {
+    const studentsData = await getStudents();
+    const recheckData = await getRecheckRequests();
+    setStudents(studentsData);
+    setRecheckRequests(recheckData);
   };
 
   const showMessage = (type: 'success' | 'error' | 'warning', text: string) => {
@@ -80,9 +82,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
       const newStudents = parseCSV(text);
       
       // Replace all existing data with new data
-      replaceAllStudents(newStudents);
+      await replaceAllStudents(newStudents);
       
-      loadData();
+      await loadData();
       setShowUploadModal(false);
       showMessage('success', `Upload complete! Replaced all data with ${newStudents.length} new records.`);
     } catch (error) {
@@ -99,7 +101,53 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
   const handleSaveEdit = () => {
     if (!editingStudent) return;
 
-    if (updateStudent(editingStudent.id, {
+    const saveEdit = async () => {
+      const updated = await updateStudent(editingStudent.id, {
+        name: editingStudent.name,
+        roll_number: editingStudent.roll_number,
+        section: editingStudent.section,
+        phone: editingStudent.phone,
+        email: editingStudent.email,
+        enrollment_number: editingStudent.enrollment_number,
+        marks: editingStudent.marks,
+        result: editingStudent.result,
+        percentage: editingStudent.percentage
+      });
+
+      if (updated) {
+        await loadData();
+        setShowEditModal(false);
+        setEditingStudent(null);
+        showMessage('success', 'Student record updated successfully!');
+      } else {
+        showMessage('error', 'Failed to update student record.');
+      }
+    };
+
+    saveEdit();
+  };
+
+  const handleDeleteStudent = async (student: Student) => {
+    if (window.confirm(`Are you sure you want to delete ${student.name}'s record?`)) {
+      const deleted = await deleteStudent(student.id);
+      if (deleted) {
+        await loadData();
+        showMessage('success', `${student.name}'s record has been deleted.`);
+      } else {
+        showMessage('error', 'Failed to delete student record.');
+      }
+    }
+  };
+
+  const handleRecheckAction = async (requestId: string, action: 'approved' | 'rejected') => {
+    const updated = await updateRecheckRequestStatus(requestId, action);
+    if (updated) {
+      await loadData();
+      showMessage('success', `Recheck request ${action} successfully!`);
+    } else {
+      showMessage('error', `Failed to ${action} recheck request.`);
+    }
+  };
       name: editingStudent.name,
       roll_number: editingStudent.roll_number,
       section: editingStudent.section,

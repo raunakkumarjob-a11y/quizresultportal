@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Send, FileText, User, Phone, Mail, BookOpen } from 'lucide-react';
-import { Student } from '../types';
-import { addRecheckRequest } from '../utils/storage';
+import type { Student } from '../lib/supabase';
+import { addRecheckRequest } from '../utils/database';
 
 interface RecheckFormProps {
   student: Student;

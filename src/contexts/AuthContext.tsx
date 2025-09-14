@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getAdmin } from '../utils/storage';
+import { verifyAdminOTP } from '../utils/database';
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (email: string, password: string) => boolean;
+  login: (email: string, otp: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -17,9 +17,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsAuthenticated(authStatus === 'true');
   }, []);
 
-  const login = (email: string, password: string): boolean => {
-    const admin = getAdmin();
-    if (email === admin.email && password === admin.password) {
+  const login = async (email: string, otp: string): Promise<boolean> => {
+    const isValid = await verifyAdminOTP(email.toLowerCase(), otp);
+    if (isValid) {
       setIsAuthenticated(true);
       localStorage.setItem('admin_authenticated', 'true');
       return true;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, User, Phone, BookOpen, GraduationCap, Award, Mail, Hash, Calendar, FileText } from 'lucide-react';
-import { findStudentByPhone } from '../utils/storage';
-import { Student } from '../types';
+import { findStudentByPhone } from '../utils/database';
+import type { Student } from '../lib/supabase';
 import RecheckForm from './RecheckForm';
 
 const StudentResultForm: React.FC = () => {

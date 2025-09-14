@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Lock, Mail, AlertCircle, Shield } from 'lucide-react';
-import { getAdmin, generateOTP, sendOTP, setOTP, verifyOTP } from '../utils/storage';
+import { getAdmin, generateOTP, sendOTP, updateAdminOTP, verifyAdminOTP } from '../utils/database';
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -20,8 +20,8 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
       return;
     }
 
-    const admin = getAdmin();
-    if (email.toLowerCase() !== admin.email.toLowerCase()) {
+    const admin = await getAdmin(email.toLowerCase());
+    if (!admin) {
       setError('Email not found in admin records');
       return;
     }
@@ -31,8 +31,9 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
 
     try {
       const generatedOTP = generateOTP();
+      const otpExpiry = new Date(Date.now() + 5 * 60 * 1000).toISOString(); // 5 minutes
       await sendOTP(email, generatedOTP);
-      setOTP(generatedOTP);
+      await updateAdminOTP(email.toLowerCase(), generatedOTP, otpExpiry);
       setStep('otp');
     } catch (error) {
       setError('Failed to send OTP. Please try again.');
@@ -54,7 +55,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    if (verifyOTP(otp)) {
+    if (await verifyAdminOTP(email.toLowerCase(), otp)) {
       onLogin();
     } else {
       setError('Invalid or expired OTP. Please try again.');
@@ -67,8 +68,9 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
     setLoading(true);
     try {
       const generatedOTP = generateOTP();
+      const otpExpiry = new Date(Date.now() + 5 * 60 * 1000).toISOString();
       await sendOTP(email, generatedOTP);
-      setOTP(generatedOTP);
+      await updateAdminOTP(email.toLowerCase(), generatedOTP, otpExpiry);
       setError('');
     } catch (error) {
       setError('Failed to resend OTP. Please try again.');
