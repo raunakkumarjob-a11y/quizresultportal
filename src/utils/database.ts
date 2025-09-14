@@ -108,7 +108,7 @@ export const getAdmin = async (email: string): Promise<AdminUser | null> => {
     .from('admin_users')
     .select('*')
     .eq('email', email)
-    .single();
+    .maybeSingle();
   
   if (error) {
     console.error('Error fetching admin:', error);
