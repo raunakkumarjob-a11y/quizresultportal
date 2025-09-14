@@ -148,42 +148,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
       showMessage('error', `Failed to ${action} recheck request.`);
     }
   };
-      name: editingStudent.name,
-      roll_number: editingStudent.roll_number,
-      section: editingStudent.section,
-      phone: editingStudent.phone,
-      email: editingStudent.email,
-      enrollment_number: editingStudent.enrollment_number,
-      marks: editingStudent.marks,
-      result: editingStudent.result,
-      percentage: editingStudent.percentage
-    })) {
-      loadData();
-      setShowEditModal(false);
-      setEditingStudent(null);
-      showMessage('success', 'Student record updated successfully!');
-    } else {
-      showMessage('error', 'Failed to update student record.');
-    }
-  };
-
-  const handleDeleteStudent = (student: Student) => {
-    if (window.confirm(`Are you sure you want to delete ${student.name}'s record?`)) {
-      deleteStudent(student.id);
-      loadData();
-      showMessage('success', `${student.name}'s record has been deleted.`);
-    }
-  };
-
-  const handleRecheckAction = (requestId: number, action: 'approved' | 'rejected') => {
-    const requests = getRecheckRequests();
-    const updatedRequests = requests.map(req => 
-      req.id === requestId ? { ...req, status: action } : req
-    );
-    saveRecheckRequests(updatedRequests);
-    loadData();
-    showMessage('success', `Recheck request ${action} successfully!`);
-  };
 
   const handleLogout = () => {
     logout();
@@ -627,7 +591,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
               >
                 <Save className="w-4 h-4" />
-                Save & Changes
+                Save Changes
               </button>
             </div>
           </div>
